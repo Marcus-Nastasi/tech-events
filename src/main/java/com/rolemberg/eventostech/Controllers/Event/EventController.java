@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/events")
@@ -26,10 +27,38 @@ public class EventController {
             .ok(eventRepo.findAll());
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Event> getSingle(
+        @PathVariable("id") UUID id
+    ) {
+        return ResponseEntity
+            .ok(eventRepo.findById(id).orElseThrow());
+    }
+
     @PostMapping(value = "/create")
-    public ResponseEntity<Event> create(@RequestBody EventRegisterDTO data) {
+    public ResponseEntity<Event> create(
+        @RequestBody EventRegisterDTO data
+    ) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(eventService.createEvent(data));
+    }
+
+    @PatchMapping(value = "/update/{id}")
+    public ResponseEntity<Event> update(
+        @PathVariable("id") UUID id,
+        @RequestBody EventRegisterDTO data
+    ) {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(eventService.updateEvent(id, data));
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<Event> delete(
+        @PathVariable("id") UUID id
+    ) {
+        return ResponseEntity
+            .ok(eventService.deleteEvent(id));
     }
 }
