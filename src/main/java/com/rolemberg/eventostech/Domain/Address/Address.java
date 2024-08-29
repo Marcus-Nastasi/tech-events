@@ -21,8 +21,7 @@ public class Address {
     private UUID id;
     private String city;
     private String uf;
-    private String event_id;
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 }
