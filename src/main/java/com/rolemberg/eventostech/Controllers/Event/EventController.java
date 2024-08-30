@@ -2,6 +2,7 @@ package com.rolemberg.eventostech.Controllers.Event;
 
 import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
+import com.rolemberg.eventostech.Domain.Event.EventsResponseDTO;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,12 @@ public class EventController {
     private EventRepo eventRepo;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<Event>> get() {
+    public ResponseEntity<List<EventsResponseDTO>> get(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
+    ) {
         return ResponseEntity
-            .ok(eventRepo.findAll());
+            .ok(eventService.getEvents(page, size));
     }
 
     @GetMapping(value = "/{id}")
