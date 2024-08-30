@@ -1,8 +1,6 @@
 package com.rolemberg.eventostech.Controllers.Address;
 
 import com.rolemberg.eventostech.Domain.Address.Address;
-import com.rolemberg.eventostech.Domain.Address.AddressRegisterDTO;
-import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
 import com.rolemberg.eventostech.Services.Address.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/address")

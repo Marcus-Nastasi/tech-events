@@ -80,7 +80,8 @@ public class EventController {
     public ResponseEntity<Event> delete(
             @PathVariable("id") UUID id
     ) {
-        return ResponseEntity
-            .ok(eventService.deleteEvent(id));
+        Event e = eventService.deleteEvent(id);
+        if (e == null) return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(e);
     }
 }

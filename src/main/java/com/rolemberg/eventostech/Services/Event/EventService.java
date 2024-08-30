@@ -32,12 +32,15 @@ public class EventService {
                 event.getId(),
                 event.getTitle(),
                 event.getDescription(),
-                event.getDate(), "", "",
+                event.getDate(),
+                "",
+                "SP",
                 event.getRemote(),
-                event.getEvent_url()
-            ))
-            .stream()
-            .toList();
+                event.getImage_url(),
+                event.getEvent_url(),
+                event.getCoupons(),
+                event.getAddresses()
+            )).toList();
     }
 
     public Event createEvent(EventRegisterDTO data) {
@@ -48,8 +51,10 @@ public class EventService {
         e.setEvent_url(data.event_url());
         e.setRemote(data.remote());
         e.setDate(data.date());
+        e.setCoupons(List.of());
         eventRepo.save(e);
-        if (!data.remote()) this.addressService.create(data, e);
+        if (!data.remote())
+            e.setAddresses(List.of(this.addressService.create(data, e)));
         return e;
     }
 

@@ -33,6 +33,9 @@ public class CouponService {
         c.setValid(data.valid());
         c.setEvent(e);
         couponRepo.save(c);
+        List<Coupon> toAddNewCoupon = e.getCoupons();
+        toAddNewCoupon.add(c);
+        e.setCoupons(toAddNewCoupon);
         return c;
     }
 }
