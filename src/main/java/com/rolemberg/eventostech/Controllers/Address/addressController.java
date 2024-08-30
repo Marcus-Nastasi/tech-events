@@ -2,6 +2,7 @@ package com.rolemberg.eventostech.Controllers.Address;
 
 import com.rolemberg.eventostech.Domain.Address.Address;
 import com.rolemberg.eventostech.Domain.Address.AddressRegisterDTO;
+import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
 import com.rolemberg.eventostech.Services.Address.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,15 +30,18 @@ public class addressController {
         return ResponseEntity.ok(addressService.get());
     }
 
+    /*
     @PostMapping(value = "/create/{event_id}")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create an addresses")
     @ApiResponse(responseCode = "201", description = "Creating the addresses")
     public ResponseEntity<Address> create(
             @PathVariable UUID event_id,
-            @RequestBody AddressRegisterDTO data
+            @RequestBody EventRegisterDTO data
     ) {
         Address a = addressService.create(event_id, data);
         return ResponseEntity.status(HttpStatus.CREATED).body(a);
-    }
+    }*/
+
+
 }

@@ -4,6 +4,7 @@ import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
 import com.rolemberg.eventostech.Domain.Event.EventsResponseDTO;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
+import com.rolemberg.eventostech.Services.Address.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,8 @@ public class EventService {
 
     @Autowired
     private EventRepo eventRepo;
+    @Autowired
+    private AddressService addressService;
 
     public List<EventsResponseDTO> getEvents(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -46,6 +49,7 @@ public class EventService {
         e.setRemote(data.remote());
         e.setDate(data.date());
         eventRepo.save(e);
+        if (!data.remote()) this.addressService.create(data, e);
         return e;
     }
 
