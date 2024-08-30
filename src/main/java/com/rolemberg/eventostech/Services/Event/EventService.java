@@ -40,7 +40,7 @@ public class EventService {
         return e;
     }
 
-    public Event deleteEvent(UUID id) {
+    public Event deleteEvent(UUID id) throws NoSuchElementException {
         Event e = eventRepo.findById(id).orElseThrow();
         eventRepo.deleteById(id);
         return e;
