@@ -1,7 +1,7 @@
 package com.rolemberg.eventostech.Services.Address;
 
 import com.rolemberg.eventostech.Domain.Address.Address;
-import com.rolemberg.eventostech.Domain.Address.AddressEResponseDTO;
+import com.rolemberg.eventostech.Domain.Address.AddressEventResponseDTO;
 import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Domain.Event.EventCleanResponseDTO;
 import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
@@ -21,19 +21,19 @@ public class AddressService {
     @Autowired
     private EventRepo eventRepo;
 
-    public List<AddressEResponseDTO> get() {
+    public List<AddressEventResponseDTO> get() {
         List<Address> addresses = addressRepo.findAll();
-        List<AddressEResponseDTO> addressEResponseDTOS = new ArrayList<>();
+        List<AddressEventResponseDTO> addressEventResponseDTOS = new ArrayList<>();
         addresses.forEach(a -> {
             EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
                 a.getEvent().getId(), a.getEvent().getTitle(), a.getEvent().getDescription(),
                 a.getEvent().getDate(), a.getEvent().getRemote(), a.getEvent().getImage_url(),
                 a.getEvent().getEvent_url()
             );
-            addressEResponseDTOS
-                .add(new AddressEResponseDTO(a.getId(), a.getCity(), a.getUf(), eventCleanResponseDTO));
+            addressEventResponseDTOS
+                .add(new AddressEventResponseDTO(a.getId(), a.getCity(), a.getUf(), eventCleanResponseDTO));
         });
-        return addressEResponseDTOS;
+        return addressEventResponseDTOS;
     }
 
     public Address create(EventRegisterDTO data, Event e) {
