@@ -27,12 +27,14 @@ public class CouponService {
         List<CouponEventResponseDTO> couponEventResponseDTOS = new ArrayList<>();
         coupons.forEach(c -> {
             EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
-                    c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
-                    c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
-                    c.getEvent().getEvent_url()
+                c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
+                c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
+                c.getEvent().getEvent_url()
             );
             couponEventResponseDTOS
-                .add(new CouponEventResponseDTO(c.getId(), c.getCode(), c.getDiscount(), c.getValid(), eventCleanResponseDTO));
+                .add(new CouponEventResponseDTO(
+                    c.getId(), c.getCode(), c.getDiscount(), c.getValid(), eventCleanResponseDTO
+                ));
         });
         return couponEventResponseDTOS;
     }
@@ -50,11 +52,15 @@ public class CouponService {
         e.setCoupons(toAddNewCoupon);
         eventRepo.save(e);
         EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
-            e.getId(), e.getTitle(), e.getDescription(), e.getDate(), e.getRemote(), e.getImage_url(), e.getEvent_url()
+            e.getId(), e.getTitle(), e.getDescription(), e.getDate(),
+            e.getRemote(), e.getImage_url(), e.getEvent_url()
         );
-        CouponEventResponseDTO couponEventResponseDTO = new CouponEventResponseDTO(
-            c.getId(), c.getCode(), c.getDiscount(), c.getValid(), eventCleanResponseDTO
+        return new CouponEventResponseDTO(
+            c.getId(),
+            c.getCode(),
+            c.getDiscount(),
+            c.getValid(),
+            eventCleanResponseDTO
         );
-        return couponEventResponseDTO;
     }
 }

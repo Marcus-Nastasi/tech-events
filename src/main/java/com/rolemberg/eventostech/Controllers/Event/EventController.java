@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -29,12 +30,12 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get events")
     @ApiResponse(responseCode = "200", description = "Finding events")
-    public ResponseEntity<List<EventsResponseDTO>> get(
+    public ResponseEntity<Map<String, List<EventsResponseDTO>>> get(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
         return ResponseEntity
-            .ok(eventService.getEvents(page, size));
+            .ok(Map.of("data", eventService.getEvents(page, size)));
     }
 
     @GetMapping(value = "/{id}")
