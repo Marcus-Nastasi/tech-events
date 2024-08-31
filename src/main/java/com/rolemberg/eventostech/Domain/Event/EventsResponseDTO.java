@@ -12,8 +12,6 @@ public record EventsResponseDTO(
     String title,
     String description,
     LocalDate date,
-    String city,
-    String state,
     Boolean remote,
     String image_url,
     String event_url,

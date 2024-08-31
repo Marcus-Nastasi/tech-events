@@ -1,5 +1,6 @@
 package com.rolemberg.eventostech.Domain.Coupon;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rolemberg.eventostech.Domain.Event.Event;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,8 @@ public class Coupon {
     private String code;
     private Double discount;
     private LocalDate valid;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
+    @JsonIgnore
     private Event event;
 }

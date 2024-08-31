@@ -1,15 +1,14 @@
 package com.rolemberg.eventostech.Domain.Event;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDate;
+import java.util.UUID;
 
-public record EventRegisterDTO(
+public record EventCleanResponseDTO(
+    UUID id,
     String title,
     String description,
     LocalDate date,
-    String city,
-    String state,
     Boolean remote,
+    String image_url,
     String event_url
 ) {}

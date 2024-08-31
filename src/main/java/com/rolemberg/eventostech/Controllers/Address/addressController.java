@@ -1,6 +1,7 @@
 package com.rolemberg.eventostech.Controllers.Address;
 
 import com.rolemberg.eventostech.Domain.Address.Address;
+import com.rolemberg.eventostech.Domain.Address.AddressEResponseDTO;
 import com.rolemberg.eventostech.Services.Address.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +24,7 @@ public class addressController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all addresses")
     @ApiResponse(responseCode = "200", description = "Found the addresses")
-    public ResponseEntity<List<Address>> get() {
+    public ResponseEntity<List<AddressEResponseDTO>> get() {
         return ResponseEntity.ok(addressService.get());
     }
 

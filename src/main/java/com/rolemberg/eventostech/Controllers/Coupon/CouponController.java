@@ -2,6 +2,7 @@ package com.rolemberg.eventostech.Controllers.Coupon;
 
 import com.rolemberg.eventostech.Domain.Coupon.Coupon;
 import com.rolemberg.eventostech.Domain.Coupon.CouponRegisterDTO;
+import com.rolemberg.eventostech.Domain.Coupon.CpnResponseEDTO;
 import com.rolemberg.eventostech.Services.Coupon.CouponService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

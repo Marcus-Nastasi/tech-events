@@ -1,5 +1,6 @@
 package com.rolemberg.eventostech.Domain.Address;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rolemberg.eventostech.Domain.Event.Event;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,8 @@ public class Address {
     private UUID id;
     private String city;
     private String uf;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
+    @JsonIgnore
     private Event event;
 }

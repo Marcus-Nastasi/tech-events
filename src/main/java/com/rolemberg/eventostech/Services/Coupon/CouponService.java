@@ -2,9 +2,11 @@ package com.rolemberg.eventostech.Services.Coupon;
 
 import com.rolemberg.eventostech.Domain.Coupon.Coupon;
 import com.rolemberg.eventostech.Domain.Coupon.CouponRegisterDTO;
+import com.rolemberg.eventostech.Domain.Coupon.CpnResponseEDTO;
 import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Repository.Coupon.CouponRepo;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,9 @@ public class CouponService {
     private EventRepo eventRepo;
 
     public List<Coupon> get() {
-        return couponRepo.findAll();
+        List<Coupon> coupons = couponRepo.findAll();
+        coupons.forEach(c -> Hibernate.initialize(c.getEvent()));
+        return coupons;
     }
 
     public Coupon create(UUID event_id, CouponRegisterDTO data) {

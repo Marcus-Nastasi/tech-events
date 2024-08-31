@@ -1,17 +1,20 @@
 package com.rolemberg.eventostech.Services.Event;
 
+import com.rolemberg.eventostech.Domain.Address.Address;
 import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
 import com.rolemberg.eventostech.Domain.Event.EventsResponseDTO;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Address.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -33,8 +36,6 @@ public class EventService {
                 event.getTitle(),
                 event.getDescription(),
                 event.getDate(),
-                "",
-                "SP",
                 event.getRemote(),
                 event.getImage_url(),
                 event.getEvent_url(),
@@ -51,10 +52,13 @@ public class EventService {
         e.setEvent_url(data.event_url());
         e.setRemote(data.remote());
         e.setDate(data.date());
-        e.setCoupons(List.of());
+        e.setCoupons(new ArrayList<>());
+        e.setAddresses(new ArrayList<>());
         eventRepo.save(e);
-        if (!data.remote())
-            e.setAddresses(List.of(this.addressService.create(data, e)));
+        if (!data.remote()) {
+            e.getAddresses().add(this.addressService.create(data, e));
+            eventRepo.save(e);
+        }
         return e;
     }
 

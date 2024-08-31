@@ -41,9 +41,7 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get single address")
     @ApiResponse(responseCode = "200", description = "Finding one event")
-    public ResponseEntity<Event> getSingle(
-            @PathVariable("id") UUID id
-    ) {
+    public ResponseEntity<Event> getSingle(@PathVariable("id") UUID id) {
         return ResponseEntity
             .ok(eventRepo.findById(id).orElseThrow());
     }
@@ -52,9 +50,7 @@ public class EventController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Creating address")
     @ApiResponse(responseCode = "201", description = "Creating the event")
-    public ResponseEntity<Event> create(
-            @RequestBody EventRegisterDTO data
-    ) {
+    public ResponseEntity<Event> create(@RequestBody EventRegisterDTO data) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(eventService.createEvent(data));
@@ -77,9 +73,7 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Deleting event")
     @ApiResponse(responseCode = "200", description = "Deleting one event")
-    public ResponseEntity<Event> delete(
-            @PathVariable("id") UUID id
-    ) {
+    public ResponseEntity<Event> delete(@PathVariable("id") UUID id) {
         Event e = eventService.deleteEvent(id);
         if (e == null) return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(e);
