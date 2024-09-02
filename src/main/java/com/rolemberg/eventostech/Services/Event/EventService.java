@@ -1,6 +1,7 @@
 package com.rolemberg.eventostech.Services.Event;
 
 import com.rolemberg.eventostech.Domain.Event.Event;
+import com.rolemberg.eventostech.Domain.Event.EventCleanResponseDTO;
 import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
 import com.rolemberg.eventostech.Domain.Event.EventsResponseDTO;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
@@ -28,18 +29,7 @@ public class EventService {
     public List<EventsResponseDTO> getEvents(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Event> eventPage = this.eventRepo.findAll(pageable);
-        return eventPage
-            .map(event -> new EventsResponseDTO(
-                event.getId(),
-                event.getTitle(),
-                event.getDescription(),
-                event.getDate(),
-                event.getRemote(),
-                event.getImage_url(),
-                event.getEvent_url(),
-                event.getCoupons(),
-                event.getAddresses()
-            )).toList();
+        return eventPage.map(this::mapToEventsResponseDTO).toList();
     }
 
     public Event createEvent(EventRegisterDTO data) {
@@ -80,5 +70,31 @@ public class EventService {
 
     private String uploadToS3(MultipartFile image) {
         return "";
+    }
+
+    public EventCleanResponseDTO mapToEventCleanResponseDTO(Event event) {
+        return new EventCleanResponseDTO(
+                event.getId(),
+                event.getTitle(),
+                event.getDescription(),
+                event.getDate(),
+                event.getRemote(),
+                event.getImage_url(),
+                event.getEvent_url()
+        );
+    }
+
+    public EventsResponseDTO mapToEventsResponseDTO(Event event) {
+        return new EventsResponseDTO(
+            event.getId(),
+            event.getTitle(),
+            event.getDescription(),
+            event.getDate(),
+            event.getRemote(),
+            event.getImage_url(),
+            event.getEvent_url(),
+            event.getCoupons(),
+            event.getAddresses()
+        );
     }
 }

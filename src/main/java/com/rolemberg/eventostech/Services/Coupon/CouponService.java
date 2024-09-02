@@ -40,7 +40,9 @@ public class CouponService {
     }
 
     public CouponEventResponseDTO create(UUID event_id, CouponRegisterDTO data) {
-        Event e = eventRepo.findById(event_id).orElseThrow(IllegalArgumentException::new);
+        Event e = eventRepo
+            .findById(event_id)
+            .orElseThrow(IllegalArgumentException::new);
         Coupon c = new Coupon();
         c.setCode(data.code());
         c.setDiscount(data.discount());
@@ -73,9 +75,9 @@ public class CouponService {
         c.setDiscount(data.discount());
         couponRepo.save(c);
         EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
-                c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
-                c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
-                c.getEvent().getEvent_url()
+            c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
+            c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
+            c.getEvent().getEvent_url()
         );
         return new CouponEventResponseDTO(
             c.getId(),
@@ -92,16 +94,16 @@ public class CouponService {
             .orElseThrow(IllegalArgumentException::new);
         couponRepo.deleteById(id);
         EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
-                c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
-                c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
-                c.getEvent().getEvent_url()
+            c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
+            c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
+            c.getEvent().getEvent_url()
         );
         return new CouponEventResponseDTO(
-                c.getId(),
-                c.getCode(),
-                c.getDiscount(),
-                c.getValid(),
-                eventCleanResponseDTO
+            c.getId(),
+            c.getCode(),
+            c.getDiscount(),
+            c.getValid(),
+            eventCleanResponseDTO
         );
     }
 }

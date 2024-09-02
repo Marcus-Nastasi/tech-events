@@ -1,6 +1,5 @@
 package com.rolemberg.eventostech.Controllers.Coupon;
 
-import com.rolemberg.eventostech.Domain.Coupon.Coupon;
 import com.rolemberg.eventostech.Domain.Coupon.CouponRegisterDTO;
 import com.rolemberg.eventostech.Domain.Coupon.CouponEventResponseDTO;
 import com.rolemberg.eventostech.Services.Coupon.CouponService;
@@ -46,7 +45,7 @@ public class CouponController {
             .body(Map.of("data", List.of(c)));
     }
 
-    @PatchMapping(value = "/event/update/{id}")
+    @PatchMapping(value = "/update/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     @Operation(summary = "Update a coupon")
     @ApiResponse(responseCode = "200", description = "Updating a coupon")
@@ -60,7 +59,7 @@ public class CouponController {
             .body(Map.of("data", c));
     }
 
-    @DeleteMapping(value = "/event/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     @Operation(summary = "Delete a coupon")
     @ApiResponse(responseCode = "200", description = "Deleting a coupon")
