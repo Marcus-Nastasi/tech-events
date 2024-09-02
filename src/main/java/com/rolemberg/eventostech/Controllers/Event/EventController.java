@@ -42,41 +42,41 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get single address")
     @ApiResponse(responseCode = "200", description = "Finding one event")
-    public ResponseEntity<Event> getSingle(@PathVariable("id") UUID id) {
+    public ResponseEntity<Map<String, Event>> getSingle(@PathVariable("id") UUID id) {
         return ResponseEntity
-            .ok(eventRepo.findById(id).orElseThrow());
+            .ok(Map.of("data", eventRepo.findById(id).orElseThrow()));
     }
 
     @PostMapping(value = "/create")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Creating address")
     @ApiResponse(responseCode = "201", description = "Creating the event")
-    public ResponseEntity<Event> create(@RequestBody EventRegisterDTO data) {
+    public ResponseEntity<Map<String, Event>> create(@RequestBody EventRegisterDTO data) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(eventService.createEvent(data));
+            .body(Map.of("data", eventService.createEvent(data)));
     }
 
     @PatchMapping(value = "/update/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Updating address")
     @ApiResponse(responseCode = "200", description = "Updating one event")
-    public ResponseEntity<Event> update(
+    public ResponseEntity<Map<String, Event>> update(
             @PathVariable("id") UUID id,
             @RequestBody EventRegisterDTO data
     ) {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(eventService.updateEvent(id, data));
+            .body(Map.of("data", eventService.updateEvent(id, data)));
     }
 
     @DeleteMapping(value = "/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Deleting event")
     @ApiResponse(responseCode = "200", description = "Deleting one event")
-    public ResponseEntity<Event> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<Map<String, Event>> delete(@PathVariable("id") UUID id) {
         Event e = eventService.deleteEvent(id);
         if (e == null) return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok(e);
+        return ResponseEntity.ok(Map.of("data", e));
     }
 }
