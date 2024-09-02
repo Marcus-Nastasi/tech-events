@@ -1,13 +1,11 @@
 package com.rolemberg.eventostech.Services.Event;
 
-import com.rolemberg.eventostech.Domain.Address.Address;
 import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
 import com.rolemberg.eventostech.Domain.Event.EventsResponseDTO;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Address.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -37,12 +37,37 @@ public class CouponController {
     @Operation(summary = "Create a new coupon")
     @ApiResponse(responseCode = "201", description = "Creating a coupon")
     public ResponseEntity<Map<String, List<CouponEventResponseDTO>>> create(
-            @PathVariable("event_id") UUID event_id,
-            @RequestBody @Valid CouponRegisterDTO data
+                @PathVariable("event_id") UUID event_id,
+                @RequestBody @Valid CouponRegisterDTO data
     ) {
         CouponEventResponseDTO c = couponService.create(event_id, data);
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(Map.of("data", List.of(c)));
+    }
+
+    @PatchMapping(value = "/event/update/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    @Operation(summary = "Update a coupon")
+    @ApiResponse(responseCode = "200", description = "Updating a coupon")
+    public ResponseEntity<Map<String, CouponEventResponseDTO>> update(
+                @PathVariable("id") UUID id,
+                @RequestBody @Valid CouponRegisterDTO data
+    ) {
+        CouponEventResponseDTO c = couponService.update(id, data);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(Map.of("data", c));
+    }
+
+    @DeleteMapping(value = "/event/delete/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    @Operation(summary = "Delete a coupon")
+    @ApiResponse(responseCode = "200", description = "Deleting a coupon")
+    public ResponseEntity<Map<String, CouponEventResponseDTO>> delete(@PathVariable("id") UUID id) {
+        CouponEventResponseDTO c = couponService.delete(id);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(Map.of("data", c));
     }
 }

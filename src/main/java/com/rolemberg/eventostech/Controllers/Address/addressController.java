@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/address")
@@ -23,8 +24,8 @@ public class addressController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all addresses")
     @ApiResponse(responseCode = "200", description = "Found the addresses")
-    public ResponseEntity<List<AddressEventResponseDTO>> get() {
-        return ResponseEntity.ok(addressService.get());
+    public ResponseEntity<Map<String, List<AddressEventResponseDTO>>> get() {
+        return ResponseEntity.ok(Map.of("data", addressService.get()));
     }
 
     /*
@@ -39,6 +40,4 @@ public class addressController {
         Address a = addressService.create(event_id, data);
         return ResponseEntity.status(HttpStatus.CREATED).body(a);
     }*/
-
-
 }

@@ -63,4 +63,45 @@ public class CouponService {
             eventCleanResponseDTO
         );
     }
+
+    public CouponEventResponseDTO update(UUID id, CouponRegisterDTO data) {
+        Coupon c = couponRepo
+            .findById(id)
+            .orElseThrow(IllegalArgumentException::new);
+        c.setCode(data.code());
+        c.setValid(data.valid());
+        c.setDiscount(data.discount());
+        couponRepo.save(c);
+        EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
+                c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
+                c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
+                c.getEvent().getEvent_url()
+        );
+        return new CouponEventResponseDTO(
+            c.getId(),
+            c.getCode(),
+            c.getDiscount(),
+            c.getValid(),
+            eventCleanResponseDTO
+        );
+    }
+
+    public CouponEventResponseDTO delete(UUID id) {
+        Coupon c = couponRepo
+            .findById(id)
+            .orElseThrow(IllegalArgumentException::new);
+        couponRepo.deleteById(id);
+        EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
+                c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
+                c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
+                c.getEvent().getEvent_url()
+        );
+        return new CouponEventResponseDTO(
+                c.getId(),
+                c.getCode(),
+                c.getDiscount(),
+                c.getValid(),
+                eventCleanResponseDTO
+        );
+    }
 }
