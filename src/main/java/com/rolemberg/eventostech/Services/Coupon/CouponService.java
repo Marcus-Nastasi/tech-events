@@ -9,6 +9,9 @@ import com.rolemberg.eventostech.Repository.Coupon.CouponRepo;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,17 +28,10 @@ public class CouponService {
     @Autowired
     private EventService eventService;
 
-    public List<CouponEventResponseDTO> get() {
-        List<Coupon> coupons = couponRepo.findAll();
-        List<CouponEventResponseDTO> couponEventResponseDTOS = new ArrayList<>();
-        coupons.forEach(c -> {
-            couponEventResponseDTOS
-                .add(new CouponEventResponseDTO(
-                    c.getId(), c.getCode(), c.getDiscount(), c.getValid(),
-                    eventService.mapToEventCleanResponseDTO(c.getEvent())
-                ));
-        });
-        return couponEventResponseDTOS;
+    public List<CouponEventResponseDTO> get(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Coupon> couponPage = couponRepo.findAll(pageable);
+        return couponPage.map(this::mapToCouponEventResponseDTO).toList();
     }
 
     public CouponEventResponseDTO create(UUID event_id, CouponRegisterDTO data) {
@@ -83,6 +79,16 @@ public class CouponService {
             .findById(id)
             .orElseThrow(IllegalArgumentException::new);
         couponRepo.deleteById(id);
+        return new CouponEventResponseDTO(
+            c.getId(),
+            c.getCode(),
+            c.getDiscount(),
+            c.getValid(),
+            eventService.mapToEventCleanResponseDTO(c.getEvent())
+        );
+    }
+
+    public CouponEventResponseDTO mapToCouponEventResponseDTO(Coupon c) {
         return new CouponEventResponseDTO(
             c.getId(),
             c.getCode(),

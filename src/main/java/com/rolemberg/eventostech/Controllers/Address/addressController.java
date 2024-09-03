@@ -6,6 +6,7 @@ import com.rolemberg.eventostech.Services.Address.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,10 @@ public class addressController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all addresses")
     @ApiResponse(responseCode = "200", description = "Found the addresses")
-    public ResponseEntity<Map<String, List<AddressEventResponseDTO>>> get() {
-        return ResponseEntity.ok(Map.of("data", addressService.get()));
+    public ResponseEntity<Map<String, List<AddressEventResponseDTO>>> get(
+        @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(Map.of("data", addressService.get(page, size)));
     }
 
     @PatchMapping(value = "/update/{id}")

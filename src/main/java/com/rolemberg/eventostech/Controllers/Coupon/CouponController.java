@@ -27,8 +27,11 @@ public class CouponController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all coupons")
     @ApiResponse(responseCode = "200", description = "Found the coupons")
-    public ResponseEntity<Map<String, List<CouponEventResponseDTO>>> get() {
-        return ResponseEntity.ok(Map.of("data", couponService.get()));
+    public ResponseEntity<Map<String, List<CouponEventResponseDTO>>> get(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(Map.of("data", couponService.get(page, size)));
     }
 
     @PostMapping(value = "/event/{event_id}")
