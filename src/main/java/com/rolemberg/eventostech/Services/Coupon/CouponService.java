@@ -48,13 +48,7 @@ public class CouponService {
         toAddNewCoupon.add(c);
         e.setCoupons(toAddNewCoupon);
         eventRepo.save(e);
-        return new CouponEventResponseDTO(
-            c.getId(),
-            c.getCode(),
-            c.getDiscount(),
-            c.getValid(),
-            eventService.mapToEventCleanResponseDTO(c.getEvent())
-        );
+        return mapToCouponEventResponseDTO(c);
     }
 
     public CouponEventResponseDTO update(UUID id, CouponRegisterDTO data) {
@@ -65,13 +59,7 @@ public class CouponService {
         c.setValid(data.valid());
         c.setDiscount(data.discount());
         couponRepo.save(c);
-        return new CouponEventResponseDTO(
-            c.getId(),
-            c.getCode(),
-            c.getDiscount(),
-            c.getValid(),
-            eventService.mapToEventCleanResponseDTO(c.getEvent())
-        );
+        return mapToCouponEventResponseDTO(c);
     }
 
     public CouponEventResponseDTO delete(UUID id) {
@@ -79,13 +67,7 @@ public class CouponService {
             .findById(id)
             .orElseThrow(IllegalArgumentException::new);
         couponRepo.deleteById(id);
-        return new CouponEventResponseDTO(
-            c.getId(),
-            c.getCode(),
-            c.getDiscount(),
-            c.getValid(),
-            eventService.mapToEventCleanResponseDTO(c.getEvent())
-        );
+        return mapToCouponEventResponseDTO(c);
     }
 
     public CouponEventResponseDTO mapToCouponEventResponseDTO(Coupon c) {
