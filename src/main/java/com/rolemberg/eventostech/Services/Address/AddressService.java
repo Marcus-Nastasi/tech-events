@@ -10,9 +10,11 @@ import com.rolemberg.eventostech.Repository.Address.AddressRepo;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,19 +28,10 @@ public class AddressService {
     @Autowired
     private EventService eventService;
 
-    public List<AddressEventResponseDTO> get() {
-        List<Address> addresses = addressRepo.findAll();
-        List<AddressEventResponseDTO> addressEventResponseDTOS = new ArrayList<>();
-        addresses.forEach(a -> {
-            addressEventResponseDTOS
-                .add(new AddressEventResponseDTO(
-                    a.getId(),
-                    a.getCity(),
-                    a.getUf(),
-                    eventService.mapToEventCleanResponseDTO(a.getEvent()))
-                );
-        });
-        return addressEventResponseDTOS;
+    public List<AddressEventResponseDTO> get(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Address> addresses = addressRepo.findAll(pageable);
+        return addresses.map(this::mapToAddressEventResponseDTO).toList();
     }
 
     public Address create(EventRegisterDTO data, Event e) {
@@ -56,32 +49,29 @@ public class AddressService {
             .findById(id)
             .orElseThrow(IllegalArgumentException::new);
         a.setCity(data.city());
-        a.setUf(a.getUf());
+        a.setUf(data.uf());
         addressRepo.save(a);
         EventCleanResponseDTO eventCleanResponseDTO = eventService
             .mapToEventCleanResponseDTO(a.getEvent());
-        return mapToAddressEventResponseDTO(a, eventCleanResponseDTO);
+        return mapToAddressEventResponseDTO(a);
     }
 
     public AddressEventResponseDTO delete(UUID id) {
         Address a = addressRepo
-                .findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+            .findById(id)
+            .orElseThrow(IllegalArgumentException::new);
         EventCleanResponseDTO eventCleanResponseDTO = eventService
             .mapToEventCleanResponseDTO(a.getEvent());
         addressRepo.deleteById(id);
-        return mapToAddressEventResponseDTO(a, eventCleanResponseDTO);
+        return mapToAddressEventResponseDTO(a);
     }
 
-    private AddressEventResponseDTO mapToAddressEventResponseDTO(
-            Address address,
-            EventCleanResponseDTO eventCleanResponseDTO
-    ) {
+    private AddressEventResponseDTO mapToAddressEventResponseDTO(Address address) {
         return new AddressEventResponseDTO(
             address.getId(),
             address.getCity(),
             address.getUf(),
-            eventCleanResponseDTO
+            eventService.mapToEventCleanResponseDTO(address.getEvent())
         );
     }
 }

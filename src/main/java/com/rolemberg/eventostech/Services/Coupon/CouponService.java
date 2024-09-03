@@ -7,6 +7,7 @@ import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Domain.Event.EventCleanResponseDTO;
 import com.rolemberg.eventostech.Repository.Coupon.CouponRepo;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
+import com.rolemberg.eventostech.Services.Event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +22,17 @@ public class CouponService {
     private CouponRepo couponRepo;
     @Autowired
     private EventRepo eventRepo;
+    @Autowired
+    private EventService eventService;
 
     public List<CouponEventResponseDTO> get() {
         List<Coupon> coupons = couponRepo.findAll();
         List<CouponEventResponseDTO> couponEventResponseDTOS = new ArrayList<>();
         coupons.forEach(c -> {
-            EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
-                c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
-                c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
-                c.getEvent().getEvent_url()
-            );
             couponEventResponseDTOS
                 .add(new CouponEventResponseDTO(
-                    c.getId(), c.getCode(), c.getDiscount(), c.getValid(), eventCleanResponseDTO
+                    c.getId(), c.getCode(), c.getDiscount(), c.getValid(),
+                    eventService.mapToEventCleanResponseDTO(c.getEvent())
                 ));
         });
         return couponEventResponseDTOS;
@@ -53,16 +52,12 @@ public class CouponService {
         toAddNewCoupon.add(c);
         e.setCoupons(toAddNewCoupon);
         eventRepo.save(e);
-        EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
-            e.getId(), e.getTitle(), e.getDescription(), e.getDate(),
-            e.getRemote(), e.getImage_url(), e.getEvent_url()
-        );
         return new CouponEventResponseDTO(
             c.getId(),
             c.getCode(),
             c.getDiscount(),
             c.getValid(),
-            eventCleanResponseDTO
+            eventService.mapToEventCleanResponseDTO(c.getEvent())
         );
     }
 
@@ -74,17 +69,12 @@ public class CouponService {
         c.setValid(data.valid());
         c.setDiscount(data.discount());
         couponRepo.save(c);
-        EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
-            c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
-            c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
-            c.getEvent().getEvent_url()
-        );
         return new CouponEventResponseDTO(
             c.getId(),
             c.getCode(),
             c.getDiscount(),
             c.getValid(),
-            eventCleanResponseDTO
+            eventService.mapToEventCleanResponseDTO(c.getEvent())
         );
     }
 
@@ -93,17 +83,12 @@ public class CouponService {
             .findById(id)
             .orElseThrow(IllegalArgumentException::new);
         couponRepo.deleteById(id);
-        EventCleanResponseDTO eventCleanResponseDTO = new EventCleanResponseDTO(
-            c.getEvent().getId(), c.getEvent().getTitle(), c.getEvent().getDescription(),
-            c.getEvent().getDate(), c.getEvent().getRemote(), c.getEvent().getImage_url(),
-            c.getEvent().getEvent_url()
-        );
         return new CouponEventResponseDTO(
             c.getId(),
             c.getCode(),
             c.getDiscount(),
             c.getValid(),
-            eventCleanResponseDTO
+            eventService.mapToEventCleanResponseDTO(c.getEvent())
         );
     }
 }

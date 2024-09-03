@@ -35,8 +35,9 @@ public class addressController {
     @Operation(summary = "Update an address")
     @ApiResponse(responseCode = "200", description = "Updating the address")
     public ResponseEntity<Map<String, AddressEventResponseDTO>> update(
-            @PathVariable("id") UUID id, @RequestBody AddressUpdateDTO data
-            ) {
+            @PathVariable("id") UUID id,
+            @RequestBody AddressUpdateDTO data
+    ) {
         AddressEventResponseDTO a = addressService.update(id, data);
         return ResponseEntity.ok(Map.of("data", a));
     }

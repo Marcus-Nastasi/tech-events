@@ -74,13 +74,13 @@ public class EventService {
 
     public EventCleanResponseDTO mapToEventCleanResponseDTO(Event event) {
         return new EventCleanResponseDTO(
-                event.getId(),
-                event.getTitle(),
-                event.getDescription(),
-                event.getDate(),
-                event.getRemote(),
-                event.getImage_url(),
-                event.getEvent_url()
+            event.getId(),
+            event.getTitle(),
+            event.getDescription(),
+            event.getDate(),
+            event.getRemote(),
+            event.getImage_url(),
+            event.getEvent_url()
         );
     }
 
