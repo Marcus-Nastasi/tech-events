@@ -60,10 +60,9 @@ public class EventController {
             @RequestParam(required = false, defaultValue = "") String title,
             @RequestParam(required = false, defaultValue = "") String city,
             @RequestParam(required = false, defaultValue = "") String uf,
-            @RequestParam(required = false, defaultValue = "") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start_date,
-            @RequestParam(required = false, defaultValue = "") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end_date
+            @RequestParam(required = false, defaultValue = "") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  start_date,
+            @RequestParam(required = false, defaultValue = "") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  end_date
     ) {
-
         return ResponseEntity
             .ok(Map.of("data", eventService.getFilteredEvents(page, size, title, city, uf, start_date, end_date)));
     }

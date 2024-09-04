@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -42,13 +43,16 @@ public class EventService {
             LocalDate end_date
     ) {
         Pageable pageable = PageRequest.of(page, size);
+        Timestamp sqlCurrentDate = Timestamp.valueOf(LocalDate.now().atStartOfDay());
+        Timestamp sqlStartDate = (start_date != null) ? Timestamp.valueOf(start_date.atStartOfDay()) : null;
+        Timestamp sqlEndDate = (end_date != null) ? Timestamp.valueOf(end_date.atStartOfDay()) : null;
         Page<Event> eventPage = this.eventRepo.findFilteredEvents(
-            LocalDate.now(),
+            sqlCurrentDate,
             title,
             city,
             uf,
-            start_date,
-            end_date,
+            sqlStartDate,
+            sqlEndDate,
             pageable
         );
         return eventPage.map(this::mapToEventsResponseDTO).toList();
