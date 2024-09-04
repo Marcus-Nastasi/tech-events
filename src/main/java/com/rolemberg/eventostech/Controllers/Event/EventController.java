@@ -8,12 +8,15 @@ import com.rolemberg.eventostech.Services.Event.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -47,6 +50,24 @@ public class EventController {
     public ResponseEntity<Map<String, Event>> getSingle(@PathVariable("id") UUID id) {
         return ResponseEntity
             .ok(Map.of("data", eventRepo.findById(id).orElseThrow()));
+    }
+
+    @GetMapping(value = "/filter")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get filtered events")
+    @ApiResponse(responseCode = "200", description = "Finding filtered events")
+    public ResponseEntity<Map<String, List<EventsResponseDTO>>> getFilteredEvents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "") String title,
+            @RequestParam(required = false, defaultValue = "") String city,
+            @RequestParam(required = false, defaultValue = "") String uf,
+            @RequestParam(required = false, defaultValue = "") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start_date,
+            @RequestParam(required = false, defaultValue = "") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end_date
+    ) {
+
+        return ResponseEntity
+            .ok(Map.of("data", eventService.getFilteredEvents(page, size, title, city, uf, start_date, end_date)));
     }
 
     @PostMapping(value = "/register")

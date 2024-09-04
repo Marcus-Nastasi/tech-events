@@ -12,12 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import javax.xml.crypto.Data;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.*;
 
 @Service
 public class EventService {
@@ -35,17 +36,38 @@ public class EventService {
         return eventPage.map(this::mapToEventsResponseDTO).toList();
     }
 
+    public List<EventsResponseDTO> getFilteredEvents(
+            int page,
+            int size,
+            String title,
+            String city,
+            String uf,
+            LocalDate start_date,
+            LocalDate end_date
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Event> eventPage = this.eventRepo.findFilteredEvents(
+            LocalDate.now(),
+            title,
+            city,
+            uf,
+            start_date,
+            end_date,
+            pageable
+        );
+        return eventPage.map(this::mapToEventsResponseDTO).toList();
+    }
+
     public Event createEvent(EventRegisterDTO data) {
         String image_url = null;
         if (data.image() != null) image_url = this.file.uploadToS3(data.image());
         Event e = new Event();
         e.setTitle(data.title());
         e.setDescription(data.description());
-        e.setImage_url(null);
         e.setEvent_url(data.event_url());
         e.setRemote(data.remote());
         e.setDate(data.date());
-        e.setEvent_url(image_url);
+        e.setImage_url(image_url);
         e.setCoupons(new ArrayList<>());
         e.setAddresses(new ArrayList<>());
         eventRepo.save(e);
@@ -57,10 +79,11 @@ public class EventService {
     }
 
     public Event updateEvent(UUID id, EventRegisterDTO data) throws NoSuchElementException {
-        Event e = eventRepo.findById(id).orElseThrow();
+        Event e = eventRepo
+            .findById(id)
+            .orElseThrow();
         e.setTitle(data.title());
         e.setDescription(data.description());
-        e.setImage_url(null);
         e.setEvent_url(data.event_url());
         e.setRemote(data.remote());
         e.setDate(data.date());
@@ -69,13 +92,11 @@ public class EventService {
     }
 
     public Event deleteEvent(UUID id) throws NoSuchElementException {
-        Event e = eventRepo.findById(id).orElseThrow();
+        Event e = eventRepo
+            .findById(id)
+            .orElseThrow();
         eventRepo.deleteById(id);
         return e;
-    }
-
-    private String uploadToS3(MultipartFile image) {
-        return "";
     }
 
     public EventCleanResponseDTO mapToEventCleanResponseDTO(Event event) {
