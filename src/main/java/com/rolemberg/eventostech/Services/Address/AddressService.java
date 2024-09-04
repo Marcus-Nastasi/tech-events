@@ -34,7 +34,7 @@ public class AddressService {
         return addresses.map(this::mapToAddressEventResponseDTO).toList();
     }
 
-    public Address create(EventRegisterDTO data, Event e) {
+    public Address createFromEvent(EventRegisterDTO data, Event e) {
         Address a = new Address();
         a.setCity(data.city());
         a.setUf(data.state());
@@ -42,6 +42,20 @@ public class AddressService {
         a.setEvent(e);
         addressRepo.save(a);
         return a;
+    }
+
+    public AddressEventResponseDTO create(UUID event_id, AddressUpdateDTO data) {
+        Event event = eventRepo
+            .findById(event_id)
+            .orElseThrow(IllegalArgumentException::new);
+        Address a = new Address();
+        a.setCity(data.city());
+        a.setUf(data.uf());
+        a.setEvent(event);
+        addressRepo.save(a);
+        event.getAddresses().add(a);
+        eventRepo.save(event);
+        return mapToAddressEventResponseDTO(a);
     }
 
     public AddressEventResponseDTO update(UUID id, AddressUpdateDTO data) {

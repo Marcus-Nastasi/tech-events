@@ -44,7 +44,7 @@ public class EventService {
         e.setAddresses(new ArrayList<>());
         eventRepo.save(e);
         if (!data.remote()) {
-            e.getAddresses().add(this.addressService.create(data, e));
+            e.getAddresses().add(this.addressService.createFromEvent(data, e));
             eventRepo.save(e);
         }
         return e;
