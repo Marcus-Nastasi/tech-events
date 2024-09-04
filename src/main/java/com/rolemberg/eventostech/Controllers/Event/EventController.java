@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -47,14 +49,26 @@ public class EventController {
             .ok(Map.of("data", eventRepo.findById(id).orElseThrow()));
     }
 
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/register")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Creating address")
     @ApiResponse(responseCode = "201", description = "Creating the event")
-    public ResponseEntity<Map<String, Event>> create(@RequestBody EventRegisterDTO data) {
+    public ResponseEntity<Map<String, Event>> create(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("date") LocalDate date,
+            @RequestParam("city") String city,
+            @RequestParam("state") String state,
+            @RequestParam("remote") Boolean remote,
+            @RequestParam("event_url") String event_url,
+            @RequestParam("image") MultipartFile image
+    ) {
+        EventRegisterDTO eventRegisterDTO = new EventRegisterDTO(
+            title, description, date, city, state, remote, event_url, image
+        );
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(Map.of("data", eventService.createEvent(data)));
+            .body(Map.of("data", eventService.createEvent(eventRegisterDTO)));
     }
 
     @PatchMapping(value = "/update/{id}")

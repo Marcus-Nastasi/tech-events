@@ -11,5 +11,6 @@ public record EventRegisterDTO(
     String city,
     String state,
     Boolean remote,
-    String event_url
+    String event_url,
+    MultipartFile image
 ) {}

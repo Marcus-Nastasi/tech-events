@@ -6,6 +6,7 @@ import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
 import com.rolemberg.eventostech.Domain.Event.EventsResponseDTO;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Address.AddressService;
+import com.rolemberg.eventostech.Util.FileToS3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,8 @@ public class EventService {
     private EventRepo eventRepo;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private FileToS3 file;
 
     public List<EventsResponseDTO> getEvents(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -33,6 +36,8 @@ public class EventService {
     }
 
     public Event createEvent(EventRegisterDTO data) {
+        String image_url = null;
+        if (data.image() != null) image_url = this.file.uploadToS3(data.image());
         Event e = new Event();
         e.setTitle(data.title());
         e.setDescription(data.description());
@@ -40,6 +45,7 @@ public class EventService {
         e.setEvent_url(data.event_url());
         e.setRemote(data.remote());
         e.setDate(data.date());
+        e.setEvent_url(image_url);
         e.setCoupons(new ArrayList<>());
         e.setAddresses(new ArrayList<>());
         eventRepo.save(e);
