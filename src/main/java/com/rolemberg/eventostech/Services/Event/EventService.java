@@ -43,16 +43,13 @@ public class EventService {
             LocalDate end_date
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Timestamp sqlCurrentDate = Timestamp.valueOf(LocalDate.now().atStartOfDay());
-        Timestamp sqlStartDate = (start_date != null) ? Timestamp.valueOf(start_date.atStartOfDay()) : null;
-        Timestamp sqlEndDate = (end_date != null) ? Timestamp.valueOf(end_date.atStartOfDay()) : null;
         Page<Event> eventPage = this.eventRepo.findFilteredEvents(
-            sqlCurrentDate,
+            //LocalDate.now(),
             title,
             city,
             uf,
-            sqlStartDate,
-            sqlEndDate,
+            //start_date,
+            //end_date,
             pageable
         );
         return eventPage.map(this::mapToEventsResponseDTO).toList();
