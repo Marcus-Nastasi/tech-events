@@ -31,12 +31,3 @@ public interface EventRepo extends JpaRepository<Event, UUID> {
         Pageable pageable
     );
 }
-
-/*nativeQuery = true, value = "SELECT e FROM event e " +
-            "LEFT JOIN e.addresses a " +
-            "WHERE e.date >= :current_date AND " +
-            "(:title IS NULL OR e.title LIKE %:title%) AND " +
-            "(:city IS NULL OR a.city LIKE %:city%) AND " +
-            "(:uf IS NULL OR a.uf LIKE %:uf%) AND " +
-            "(:start_date IS NULL OR e.date >= %:start_date%) AND " +
-            "(:end_date IS NULL OR e.date <= %:end_date%)"*/
