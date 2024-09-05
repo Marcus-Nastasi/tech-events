@@ -35,8 +35,7 @@ public class EventController {
     @ApiResponse(responseCode = "200", description = "Finding events")
     public ResponseEntity<Map<String, List<EventsResponseDTO>>> get(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
+            @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity
             .ok(Map.of("data", eventService.getEvents(page, size)));
     }
@@ -61,8 +60,7 @@ public class EventController {
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String uf,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  start_date,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  end_date
-    ) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  end_date) {
         return ResponseEntity
             .ok(Map.of("data", eventService.getFilteredEvents(page, size, title, city, uf, start_date, end_date)));
     }
@@ -79,8 +77,7 @@ public class EventController {
             @RequestParam("state") String state,
             @RequestParam("remote") Boolean remote,
             @RequestParam("event_url") String event_url,
-            @RequestParam("image") MultipartFile image
-    ) {
+            @RequestParam("image") MultipartFile image) {
         EventRegisterDTO eventRegisterDTO = new EventRegisterDTO(
             title, description, date, city, state, remote, event_url, image
         );
@@ -95,8 +92,7 @@ public class EventController {
     @ApiResponse(responseCode = "200", description = "Updating one event")
     public ResponseEntity<Map<String, Event>> update(
             @PathVariable("id") UUID id,
-            @RequestBody EventRegisterDTO data
-    ) {
+            @RequestBody EventRegisterDTO data) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(Map.of("data", eventService.updateEvent(id, data)));
