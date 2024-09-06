@@ -29,6 +29,7 @@ public class EventController {
     @Autowired
     private EventRepo eventRepo;
 
+    /*
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get events")
@@ -38,18 +39,9 @@ public class EventController {
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity
             .ok(Map.of("data", eventService.getEvents(page, size)));
-    }
+    }*/
 
-    @GetMapping(value = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get single address")
-    @ApiResponse(responseCode = "200", description = "Finding one event")
-    public ResponseEntity<Map<String, Event>> getSingle(@PathVariable("id") UUID id) {
-        return ResponseEntity
-            .ok(Map.of("data", eventRepo.findById(id).orElseThrow()));
-    }
-
-    @GetMapping(value = "/filter")
+    @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get filtered events")
     @ApiResponse(responseCode = "200", description = "Finding filtered events")
@@ -62,8 +54,19 @@ public class EventController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  start_date,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  end_date
     ) {
+        List<EventsResponseDTO> e = eventService.getFilteredEvents(page, size, title, city, uf, start_date, end_date);
         return ResponseEntity
-            .ok(Map.of("data", eventService.getFilteredEvents(page, size, title, city, uf, start_date, end_date)));
+            .ok(Map.of("data", e));
+    }
+
+    @GetMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get single address")
+    @ApiResponse(responseCode = "200", description = "Finding one event")
+    public ResponseEntity<Map<String, Event>> getSingle(@PathVariable("id") UUID id) {
+        Event e = eventRepo.findById(id).orElseThrow();
+        return ResponseEntity
+            .ok(Map.of("data", e));
     }
 
     @PostMapping(value = "/register")
@@ -83,9 +86,11 @@ public class EventController {
         EventRegisterDTO eventRegisterDTO = new EventRegisterDTO(
             title, description, date, city, state, remote, event_url, image
         );
+        Event e = eventService.createEvent(eventRegisterDTO);
+        if (e == null) return ResponseEntity.badRequest().build();
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(Map.of("data", eventService.createEvent(eventRegisterDTO)));
+            .body(Map.of("data", e));
     }
 
     @PatchMapping(value = "/update/{id}")
@@ -95,9 +100,11 @@ public class EventController {
     public ResponseEntity<Map<String, Event>> update(
             @PathVariable("id") UUID id,
             @RequestBody EventRegisterDTO data) {
+        Event e = eventService.updateEvent(id, data);
+        if (e == null) return ResponseEntity.badRequest().build();
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(Map.of("data", eventService.updateEvent(id, data)));
+            .body(Map.of("data", e));
     }
 
     @DeleteMapping(value = "/delete/{id}")

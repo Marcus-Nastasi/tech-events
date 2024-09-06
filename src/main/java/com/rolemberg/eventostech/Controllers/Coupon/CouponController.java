@@ -28,8 +28,8 @@ public class CouponController {
     @Operation(summary = "Get all coupons")
     @ApiResponse(responseCode = "200", description = "Found the coupons")
     public ResponseEntity<Map<String, List<CouponEventResponseDTO>>> get(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+                @RequestParam(defaultValue = "0") int page,
+                @RequestParam(defaultValue = "10") int size
     ) {
         return ResponseEntity.ok(Map.of("data", couponService.get(page, size)));
     }

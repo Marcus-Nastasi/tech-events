@@ -4,7 +4,6 @@ import com.rolemberg.eventostech.Domain.Coupon.Coupon;
 import com.rolemberg.eventostech.Domain.Coupon.CouponRegisterDTO;
 import com.rolemberg.eventostech.Domain.Coupon.CouponEventResponseDTO;
 import com.rolemberg.eventostech.Domain.Event.Event;
-import com.rolemberg.eventostech.Domain.Event.EventCleanResponseDTO;
 import com.rolemberg.eventostech.Repository.Coupon.CouponRepo;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Event.EventService;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

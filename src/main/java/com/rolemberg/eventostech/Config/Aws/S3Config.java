@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AwsConfig {
+public class S3Config {
 
     @Value("${aws.region}")
     private String region;
