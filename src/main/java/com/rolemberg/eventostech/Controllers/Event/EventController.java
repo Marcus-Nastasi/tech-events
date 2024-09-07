@@ -3,10 +3,13 @@ package com.rolemberg.eventostech.Controllers.Event;
 import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
 import com.rolemberg.eventostech.Domain.Event.EventsResponseDTO;
+import com.rolemberg.eventostech.Handlers.AppError;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Event.EventService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -43,7 +46,7 @@ public class EventController {
 
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get filtered events")
+    @Operation(summary = "Get filtered events", description = "You can get all events, paginated, and filtering.")
     @ApiResponse(responseCode = "200", description = "Finding filtered events")
     public ResponseEntity<Map<String, List<EventsResponseDTO>>> getFilteredEvents(
             @RequestParam(defaultValue = "0") int page,
@@ -54,24 +57,28 @@ public class EventController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  start_date,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  end_date
     ) {
-        List<EventsResponseDTO> e = eventService.getFilteredEvents(page, size, title, city, uf, start_date, end_date);
+        List<EventsResponseDTO> e = eventService
+            .getFilteredEvents(page, size, title, city, uf, start_date, end_date);
+        if (e == null) throw new AppError("Error while getting the events.");
         return ResponseEntity
             .ok(Map.of("data", e));
     }
 
     @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get single address")
+    @Operation(summary = "Get single event", description = "You can get a single event.")
     @ApiResponse(responseCode = "200", description = "Finding one event")
     public ResponseEntity<Map<String, Event>> getSingle(@PathVariable("id") UUID id) {
-        Event e = eventRepo.findById(id).orElseThrow();
+        Event e = eventRepo
+            .findById(id)
+            .orElseThrow(() -> new AppError("Error finding the event."));
         return ResponseEntity
             .ok(Map.of("data", e));
     }
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "/register", consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Creating address")
+    @Operation(summary = "Creating event", description = "You can get register an event.")
     @ApiResponse(responseCode = "201", description = "Creating the event")
     public ResponseEntity<Map<String, Event>> create(
             @RequestParam("title") String title,
@@ -81,13 +88,15 @@ public class EventController {
             @RequestParam("state") String state,
             @RequestParam("remote") Boolean remote,
             @RequestParam("event_url") String event_url,
+            @Parameter(description = "Imagem a ser enviada", required = true)
             @RequestParam("image") MultipartFile image
     ) {
+        if (image.isEmpty()) throw new AppError("Need to send an image");
         EventRegisterDTO eventRegisterDTO = new EventRegisterDTO(
             title, description, date, city, state, remote, event_url, image
         );
         Event e = eventService.createEvent(eventRegisterDTO);
-        if (e == null) return ResponseEntity.badRequest().build();
+        if (e == null) throw new AppError("Error while creating the event.");
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(Map.of("data", e));
@@ -95,13 +104,13 @@ public class EventController {
 
     @PatchMapping(value = "/update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Updating address")
+    @Operation(summary = "Updating event")
     @ApiResponse(responseCode = "200", description = "Updating one event")
     public ResponseEntity<Map<String, Event>> update(
             @PathVariable("id") UUID id,
-            @RequestBody EventRegisterDTO data) {
+            @RequestBody @Valid EventRegisterDTO data) {
         Event e = eventService.updateEvent(id, data);
-        if (e == null) return ResponseEntity.badRequest().build();
+        if (e == null) throw new AppError("Error while updating the event.");
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(Map.of("data", e));
@@ -113,7 +122,7 @@ public class EventController {
     @ApiResponse(responseCode = "200", description = "Deleting one event")
     public ResponseEntity<Map<String, Event>> delete(@PathVariable("id") UUID id) {
         Event e = eventService.deleteEvent(id);
-        if (e == null) return ResponseEntity.badRequest().build();
+        if (e == null) throw new AppError("Error while deleting the event.");
         return ResponseEntity.ok(Map.of("data", e));
     }
 }

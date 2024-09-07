@@ -29,7 +29,6 @@ public class FileToS3 {
             file.delete();
             return client.getUrl(bucket_name, img_name).toString();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return null;
         }
     }

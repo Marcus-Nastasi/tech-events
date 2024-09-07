@@ -25,7 +25,7 @@ public class CouponController {
 
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get all coupons")
+    @Operation(summary = "Get all coupons", description = "You can get all coupons, paginating.")
     @ApiResponse(responseCode = "200", description = "Found the coupons")
     public ResponseEntity<Map<String, List<CouponEventResponseDTO>>> get(
                 @RequestParam(defaultValue = "0") int page,
@@ -36,7 +36,7 @@ public class CouponController {
 
     @PostMapping(value = "/event/{event_id}")
     @ResponseStatus(value = HttpStatus.CREATED)
-    @Operation(summary = "Create a new coupon")
+    @Operation(summary = "Create a new coupon", description = "You can create a coupon.")
     @ApiResponse(responseCode = "201", description = "Creating a coupon")
     public ResponseEntity<Map<String, List<CouponEventResponseDTO>>> create(
                 @PathVariable("event_id") UUID event_id,
@@ -50,7 +50,7 @@ public class CouponController {
 
     @PatchMapping(value = "/update/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    @Operation(summary = "Update a coupon")
+    @Operation(summary = "Update a coupon", description = "You can update a coupon.")
     @ApiResponse(responseCode = "200", description = "Updating a coupon")
     public ResponseEntity<Map<String, CouponEventResponseDTO>> update(
                 @PathVariable("id") UUID id,
@@ -64,7 +64,7 @@ public class CouponController {
 
     @DeleteMapping(value = "/delete/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    @Operation(summary = "Delete a coupon")
+    @Operation(summary = "Delete a coupon", description = "You can delete a coupon.")
     @ApiResponse(responseCode = "200", description = "Deleting a coupon")
     public ResponseEntity<Map<String, CouponEventResponseDTO>> delete(@PathVariable("id") UUID id) {
         CouponEventResponseDTO c = couponService.delete(id);

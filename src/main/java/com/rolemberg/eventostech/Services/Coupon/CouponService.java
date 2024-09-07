@@ -4,6 +4,7 @@ import com.rolemberg.eventostech.Domain.Coupon.Coupon;
 import com.rolemberg.eventostech.Domain.Coupon.CouponRegisterDTO;
 import com.rolemberg.eventostech.Domain.Coupon.CouponEventResponseDTO;
 import com.rolemberg.eventostech.Domain.Event.Event;
+import com.rolemberg.eventostech.Handlers.AppError;
 import com.rolemberg.eventostech.Repository.Coupon.CouponRepo;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Event.EventService;
@@ -35,7 +36,7 @@ public class CouponService {
     public CouponEventResponseDTO create(UUID event_id, CouponRegisterDTO data) {
         Event e = eventRepo
             .findById(event_id)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new AppError("Error finding associated event while creating the coupon"));
         Coupon c = new Coupon();
         c.setCode(data.code());
         c.setDiscount(data.discount());
@@ -52,7 +53,7 @@ public class CouponService {
     public CouponEventResponseDTO update(UUID id, CouponRegisterDTO data) {
         Coupon c = couponRepo
             .findById(id)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new AppError("Error finding the coupon while trying to update"));
         c.setCode(data.code());
         c.setValid(data.valid());
         c.setDiscount(data.discount());
@@ -63,7 +64,7 @@ public class CouponService {
     public CouponEventResponseDTO delete(UUID id) {
         Coupon c = couponRepo
             .findById(id)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new AppError("Error finding the coupon while trying to delete"));
         couponRepo.deleteById(id);
         return mapToCouponEventResponseDTO(c);
     }

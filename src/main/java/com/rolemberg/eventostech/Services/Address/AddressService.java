@@ -6,6 +6,7 @@ import com.rolemberg.eventostech.Domain.Address.AddressUpdateDTO;
 import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Domain.Event.EventCleanResponseDTO;
 import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
+import com.rolemberg.eventostech.Handlers.AppError;
 import com.rolemberg.eventostech.Repository.Address.AddressRepo;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Event.EventService;
@@ -47,7 +48,7 @@ public class AddressService {
     public AddressEventResponseDTO create(UUID event_id, AddressUpdateDTO data) {
         Event event = eventRepo
             .findById(event_id)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new AppError("Error finding associated event while creating the address"));
         Address a = new Address();
         a.setCity(data.city());
         a.setUf(data.uf());
@@ -61,7 +62,7 @@ public class AddressService {
     public AddressEventResponseDTO update(UUID id, AddressUpdateDTO data) {
         Address a = addressRepo
             .findById(id)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new AppError("Error finding address while trying to update"));
         a.setCity(data.city());
         a.setUf(data.uf());
         addressRepo.save(a);
@@ -73,7 +74,7 @@ public class AddressService {
     public AddressEventResponseDTO delete(UUID id) {
         Address a = addressRepo
             .findById(id)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new AppError("Error finding address while trying to delete"));
         EventCleanResponseDTO eventCleanResponseDTO = eventService
             .mapToEventCleanResponseDTO(a.getEvent());
         addressRepo.deleteById(id);
