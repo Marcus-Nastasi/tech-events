@@ -32,18 +32,6 @@ public class EventController {
     @Autowired
     private EventRepo eventRepo;
 
-    /*
-    @GetMapping(value = "")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get events")
-    @ApiResponse(responseCode = "200", description = "Finding events")
-    public ResponseEntity<Map<String, List<EventsResponseDTO>>> get(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity
-            .ok(Map.of("data", eventService.getEvents(page, size)));
-    }*/
-
     @GetMapping(value = "")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get filtered events", description = "You can get all events, paginated, and filtering.")
