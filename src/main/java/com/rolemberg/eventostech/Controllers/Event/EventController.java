@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/events")
 @RestControllerAdvice
+@RequestMapping(value = "/api/events")
 public class EventController {
 
     @Autowired
@@ -32,9 +32,9 @@ public class EventController {
     @Autowired
     private EventRepo eventRepo;
 
-    @GetMapping(value = "")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get filtered events", description = "You can get all events, paginated, and filtering.")
+    @Operation(summary = "Get filtered events", description = "You can get all events, paginating, and filtering.")
     @ApiResponse(responseCode = "200", description = "Finding filtered events")
     public ResponseEntity<Map<String, List<EventsResponseDTO>>> getFilteredEvents(
             @RequestParam(defaultValue = "0") int page,
@@ -93,7 +93,7 @@ public class EventController {
     @PatchMapping(value = "/update/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Updating event")
-    @ApiResponse(responseCode = "200", description = "Updating one event")
+    @ApiResponse(responseCode = "200", description = "Updating event")
     public ResponseEntity<Map<String, Event>> update(
             @PathVariable("id") UUID id,
             @RequestBody @Valid EventRegisterDTO data) {
@@ -107,7 +107,7 @@ public class EventController {
     @DeleteMapping(value = "/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Deleting event")
-    @ApiResponse(responseCode = "200", description = "Deleting one event")
+    @ApiResponse(responseCode = "200", description = "Deleting event")
     public ResponseEntity<Map<String, Event>> delete(@PathVariable("id") UUID id) {
         Event e = eventService.deleteEvent(id);
         if (e == null) throw new AppError("Error while deleting the event.");

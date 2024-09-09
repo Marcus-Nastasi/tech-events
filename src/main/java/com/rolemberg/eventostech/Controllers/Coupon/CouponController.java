@@ -16,14 +16,14 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/coupon")
 @RestControllerAdvice
+@RequestMapping(value = "/api/coupon")
 public class CouponController {
 
     @Autowired
     private CouponService couponService;
 
-    @GetMapping(value = "")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all coupons", description = "You can get all coupons, paginating.")
     @ApiResponse(responseCode = "200", description = "Found the coupons")

@@ -4,7 +4,6 @@ import com.rolemberg.eventostech.Domain.Event.Event;
 import com.rolemberg.eventostech.Domain.Event.EventCleanResponseDTO;
 import com.rolemberg.eventostech.Domain.Event.EventRegisterDTO;
 import com.rolemberg.eventostech.Domain.Event.EventsResponseDTO;
-import com.rolemberg.eventostech.Handlers.AppError;
 import com.rolemberg.eventostech.Repository.Event.EventRepo;
 import com.rolemberg.eventostech.Services.Address.AddressService;
 import com.rolemberg.eventostech.Util.FileToS3;

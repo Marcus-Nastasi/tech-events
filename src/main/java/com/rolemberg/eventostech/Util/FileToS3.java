@@ -22,7 +22,7 @@ public class FileToS3 {
     private AmazonS3 client;
 
     public String uploadToS3(MultipartFile image) {
-        String img_name = randomUUID() + "-" + image.getOriginalFilename();
+        String img_name = "eventos-tech" + randomUUID() + "-" + image.getOriginalFilename();
         try {
             File file = convertMultipartToFile(image);
             client.putObject(bucket_name, img_name, file);
