@@ -22,7 +22,7 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT
                 .create()
-                .withIssuer("library-api")
+                .withIssuer("eventos-tech-api")
                 .withSubject(email)
                 .withExpiresAt(exp())
                 .sign(algorithm);
@@ -36,7 +36,7 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT
                 .require(algorithm)
-                .withIssuer("library-api")
+                .withIssuer("eventos-tech-api")
                 .build()
                 .verify(token)
                 .getSubject();

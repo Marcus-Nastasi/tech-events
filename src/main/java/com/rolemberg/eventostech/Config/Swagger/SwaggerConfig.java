@@ -16,6 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
         name = "Bearer Authentication",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
-        scheme = "bearer"
+        scheme = "Bearer"
 )
 public class SwaggerConfig {}

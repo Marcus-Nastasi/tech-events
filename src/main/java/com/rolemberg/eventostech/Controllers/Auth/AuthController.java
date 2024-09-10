@@ -2,7 +2,6 @@ package com.rolemberg.eventostech.Controllers.Auth;
 
 import com.rolemberg.eventostech.Domain.Users.LoginRequestDTO;
 import com.rolemberg.eventostech.Domain.Users.LoginResponseDTO;
-import com.rolemberg.eventostech.Domain.Users.User;
 import com.rolemberg.eventostech.Repository.Users.UsersRepo;
 import com.rolemberg.eventostech.Services.Auth.TokenService;
 import jakarta.validation.Valid;
@@ -13,8 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestControllerAdvice
 @RestController
