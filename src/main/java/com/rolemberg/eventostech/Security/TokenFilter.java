@@ -33,7 +33,6 @@ public class TokenFilter extends OncePerRequestFilter {
         if (token != null) {
             String email = tokenService.validate(token);
             UserDetails userDetails = this.usersRepo.findByEmail(email);
-            System.out.println(userDetails.getClass());
             var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
