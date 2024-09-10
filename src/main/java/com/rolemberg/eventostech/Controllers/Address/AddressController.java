@@ -5,6 +5,7 @@ import com.rolemberg.eventostech.Domain.Address.AddressUpdateDTO;
 import com.rolemberg.eventostech.Services.Address.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,9 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/address")
 @RestControllerAdvice
+@SecurityRequirement(name = "Bearer Authentication")
+@RequestMapping(value = "/api/address")
 public class AddressController {
 
     @Autowired

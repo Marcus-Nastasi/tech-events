@@ -5,6 +5,7 @@ import com.rolemberg.eventostech.Domain.Coupon.CouponEventResponseDTO;
 import com.rolemberg.eventostech.Services.Coupon.CouponService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RestControllerAdvice
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping(value = "/api/coupon")
 public class CouponController {
 

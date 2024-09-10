@@ -5,6 +5,7 @@ import com.rolemberg.eventostech.Domain.Users.UserRegisterDTO;
 import com.rolemberg.eventostech.Services.Users.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @RestControllerAdvice
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping(value = "/api/users")
 public class UserController {
 
