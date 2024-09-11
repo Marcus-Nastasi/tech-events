@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -38,7 +37,7 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get filtered events", description = "You can get all events, paginating, and filtering.")
     @ApiResponse(responseCode = "200", description = "Finding filtered events")
-    public ResponseEntity<Map<String, List<EventsResponseDTO>>> getFilteredEvents(
+    public ResponseEntity<List<EventsResponseDTO>> getFilteredEvents(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String title,
@@ -50,27 +49,25 @@ public class EventController {
         List<EventsResponseDTO> e = eventService
             .getFilteredEvents(page, size, title, city, uf, start_date, end_date);
         if (e == null) throw new AppError("Error while getting the events.");
-        return ResponseEntity
-            .ok(Map.of("data", e));
+        return ResponseEntity.ok(e);
     }
 
     @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get single event", description = "You can get a single event.")
     @ApiResponse(responseCode = "200", description = "Finding one event")
-    public ResponseEntity<Map<String, Event>> getSingle(@PathVariable("id") UUID id) {
+    public ResponseEntity<Event> getSingle(@PathVariable("id") UUID id) {
         Event e = eventRepo
             .findById(id)
             .orElseThrow(() -> new AppError("Error finding the event."));
-        return ResponseEntity
-            .ok(Map.of("data", e));
+        return ResponseEntity.ok(e);
     }
 
     @PostMapping(value = "/register", consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Creating event", description = "You can get register an event.")
     @ApiResponse(responseCode = "201", description = "Creating the event")
-    public ResponseEntity<Map<String, Event>> create(
+    public ResponseEntity<Event> create(
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("date") LocalDate date,
@@ -89,30 +86,30 @@ public class EventController {
         if (e == null) throw new AppError("Error while creating the event.");
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(Map.of("data", e));
+            .body(e);
     }
 
     @PatchMapping(value = "/update/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Updating event")
     @ApiResponse(responseCode = "200", description = "Updating event")
-    public ResponseEntity<Map<String, Event>> update(
+    public ResponseEntity<Event> update(
             @PathVariable("id") UUID id,
             @RequestBody @Valid EventRegisterDTO data) {
         Event e = eventService.updateEvent(id, data);
         if (e == null) throw new AppError("Error while updating the event.");
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(Map.of("data", e));
+            .body(e);
     }
 
     @DeleteMapping(value = "/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Deleting event")
     @ApiResponse(responseCode = "200", description = "Deleting event")
-    public ResponseEntity<Map<String, Event>> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<Event> delete(@PathVariable("id") UUID id) {
         Event e = eventService.deleteEvent(id);
         if (e == null) throw new AppError("Error while deleting the event.");
-        return ResponseEntity.ok(Map.of("data", e));
+        return ResponseEntity.ok(e);
     }
 }

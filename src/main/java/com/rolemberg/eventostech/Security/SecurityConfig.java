@@ -31,6 +31,7 @@ public class SecurityConfig extends DelegatingWebMvcConfiguration {
                     .requestMatchers("/swagger-resources/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/users/register").hasRole("ADMIN")
                     .anyRequest().authenticated()
             )
             .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
