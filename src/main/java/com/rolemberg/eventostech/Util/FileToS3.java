@@ -54,12 +54,12 @@ public class FileToS3 {
         }
     }
 
-    private String extractFileKeyFromUrl(String fileUrl) {
+    private String extractFileKeyFromUrl(String fileUrl) throws RuntimeException {
         try {
             URL url = new URL(fileUrl);
-            return url.getPath().substring(1); // Remove a barra inicial
+            return url.getPath().substring(1);
         } catch (MalformedURLException e) {
-            throw new RuntimeException("URL inválida", e);
+            throw new RuntimeException("URL inválida");
         }
     }
 }
