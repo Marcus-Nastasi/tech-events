@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Objects;
 
 import static java.util.UUID.randomUUID;
@@ -22,7 +24,7 @@ public class FileToS3 {
     private AmazonS3 client;
 
     public String uploadToS3(MultipartFile image) {
-        String img_name = "eventos-tech" + randomUUID() + "-" + image.getOriginalFilename();
+        String img_name = "eventos-tech-" + randomUUID() + "-" + image.getOriginalFilename();
         try {
             File file = convertMultipartToFile(image);
             client.putObject(bucket_name, img_name, file);
@@ -39,5 +41,25 @@ public class FileToS3 {
         fos.write(multipartFile.getBytes());
         fos.close();
         return file;
+    }
+
+    public boolean deleteFromS3(String fileUrl) {
+        try {
+            String fileKey = extractFileKeyFromUrl(fileUrl);
+            client.deleteObject(bucket_name, fileKey);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private String extractFileKeyFromUrl(String fileUrl) {
+        try {
+            URL url = new URL(fileUrl);
+            return url.getPath().substring(1); // Remove a barra inicial
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("URL inválida", e);
+        }
     }
 }
