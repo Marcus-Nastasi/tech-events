@@ -77,7 +77,7 @@ public class EventService {
     public Event updateEvent(UUID id, EventRegisterDTO data) throws NoSuchElementException {
         Event e = eventRepo
             .findById(id)
-            .orElseThrow();
+            .orElseThrow(() -> new AppError("Cannot get the event while trying to update"));
         e.setTitle(data.title());
         e.setDescription(data.description());
         e.setEvent_url(data.event_url());
@@ -92,7 +92,8 @@ public class EventService {
             .findById(id)
             .orElseThrow(() -> new AppError("Cannot get the event while trying to delete"));
         boolean deleteFile = file.deleteFromS3(e.getImage_url());
-        if (!deleteFile) return null;
+        if (!deleteFile)
+            throw new AppError("Not able to delete the image '" + e.getImage_url() + "' from S3");
         eventRepo.deleteById(id);
         return e;
     }
