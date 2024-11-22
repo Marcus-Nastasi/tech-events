@@ -1,7 +1,7 @@
 package com.rolemberg.eventostech.application.web.controllers.users;
 
 import com.rolemberg.eventostech.domain.users.User;
-import com.rolemberg.eventostech.domain.users.UserRegisterDTO;
+import com.rolemberg.eventostech.application.web.request.users.UserRequestDto;
 import com.rolemberg.eventostech.resource.services.users.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -40,7 +40,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Creating user", description = "You can create a user.")
     @ApiResponse(responseCode = "201", description = "Creating the user")
-    public ResponseEntity<User> register(@RequestBody @Valid UserRegisterDTO user) {
+    public ResponseEntity<User> register(@RequestBody @Valid UserRequestDto user) {
          return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.register(user));
     }
 

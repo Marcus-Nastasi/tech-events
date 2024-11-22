@@ -1,11 +1,11 @@
 package com.rolemberg.eventostech.resource.services.address;
 
 import com.rolemberg.eventostech.domain.address.Address;
-import com.rolemberg.eventostech.domain.address.AddressEventResponseDTO;
-import com.rolemberg.eventostech.domain.address.AddressUpdateDTO;
+import com.rolemberg.eventostech.application.web.response.address.AddressEventResponseDTO;
+import com.rolemberg.eventostech.application.web.request.address.AddressUpdateDTO;
 import com.rolemberg.eventostech.domain.event.Event;
-import com.rolemberg.eventostech.domain.event.EventCleanResponseDTO;
-import com.rolemberg.eventostech.domain.event.EventRegisterDTO;
+import com.rolemberg.eventostech.application.web.response.event.EventCleanResponseDTO;
+import com.rolemberg.eventostech.application.web.request.event.EventRequestDto;
 import com.rolemberg.eventostech.web.handlers.AppError;
 import com.rolemberg.eventostech.resource.repository.address.AddressRepo;
 import com.rolemberg.eventostech.resource.repository.event.EventRepo;
@@ -35,7 +35,7 @@ public class AddressService {
         return addresses.map(this::mapToAddressEventResponseDTO).toList();
     }
 
-    public Address createFromEvent(EventRegisterDTO data, Event e) {
+    public Address createFromEvent(EventRequestDto data, Event e) {
         Address a = new Address();
         a.setCity(data.city());
         a.setUf(data.state());

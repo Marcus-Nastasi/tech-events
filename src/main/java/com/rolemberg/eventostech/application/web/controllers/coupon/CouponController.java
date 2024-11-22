@@ -1,7 +1,7 @@
 package com.rolemberg.eventostech.application.web.controllers.coupon;
 
-import com.rolemberg.eventostech.domain.coupon.CouponRegisterDTO;
-import com.rolemberg.eventostech.domain.coupon.CouponEventResponseDTO;
+import com.rolemberg.eventostech.application.web.request.coupon.CouponRequestDto;
+import com.rolemberg.eventostech.application.web.response.coupon.CouponEventResponseDTO;
 import com.rolemberg.eventostech.resource.services.coupon.CouponService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,7 +42,7 @@ public class CouponController {
     @ApiResponse(responseCode = "201", description = "Creating a coupon")
     public ResponseEntity<CouponEventResponseDTO> create(
                 @PathVariable("event_id") UUID event_id,
-                @RequestBody @Valid CouponRegisterDTO data
+                @RequestBody @Valid CouponRequestDto data
     ) {
         CouponEventResponseDTO c = couponService.create(event_id, data);
         return ResponseEntity
@@ -56,7 +56,7 @@ public class CouponController {
     @ApiResponse(responseCode = "200", description = "Updating a coupon")
     public ResponseEntity<CouponEventResponseDTO> update(
                 @PathVariable("id") UUID id,
-                @RequestBody @Valid CouponRegisterDTO data
+                @RequestBody @Valid CouponRequestDto data
     ) {
         CouponEventResponseDTO c = couponService.update(id, data);
         return ResponseEntity

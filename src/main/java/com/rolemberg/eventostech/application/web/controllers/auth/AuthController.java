@@ -1,7 +1,7 @@
 package com.rolemberg.eventostech.application.web.controllers.auth;
 
-import com.rolemberg.eventostech.domain.users.LoginRequestDTO;
-import com.rolemberg.eventostech.domain.users.LoginResponseDTO;
+import com.rolemberg.eventostech.application.web.request.auth.LoginRequestDTO;
+import com.rolemberg.eventostech.application.web.response.auth.LoginResponseDTO;
 import com.rolemberg.eventostech.resource.repository.users.UsersRepo;
 import com.rolemberg.eventostech.resource.services.auth.TokenService;
 import jakarta.validation.Valid;

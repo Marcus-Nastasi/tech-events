@@ -1,10 +1,10 @@
-package com.rolemberg.eventostech.domain.event;
+package com.rolemberg.eventostech.application.web.request.event;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
-public record EventRegisterDTO(
+public record EventRequestDto(
     String title,
     String description,
     LocalDate date,

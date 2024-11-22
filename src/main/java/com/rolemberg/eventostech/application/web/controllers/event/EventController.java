@@ -1,8 +1,8 @@
 package com.rolemberg.eventostech.application.web.controllers.event;
 
 import com.rolemberg.eventostech.domain.event.Event;
-import com.rolemberg.eventostech.domain.event.EventRegisterDTO;
-import com.rolemberg.eventostech.domain.event.EventsResponseDTO;
+import com.rolemberg.eventostech.application.web.request.event.EventRequestDto;
+import com.rolemberg.eventostech.application.web.response.event.EventsResponseDTO;
 import com.rolemberg.eventostech.web.handlers.AppError;
 import com.rolemberg.eventostech.resource.repository.event.EventRepo;
 import com.rolemberg.eventostech.resource.services.event.EventService;
@@ -79,7 +79,7 @@ public class EventController {
             @RequestParam("image") MultipartFile image
     ) {
         if (image.isEmpty()) throw new AppError("Need to send an image");
-        EventRegisterDTO eventRegisterDTO = new EventRegisterDTO(
+        EventRequestDto eventRegisterDTO = new EventRequestDto(
             title, description, date, city, state, remote, event_url, image
         );
         Event e = eventService.createEvent(eventRegisterDTO);
@@ -95,7 +95,7 @@ public class EventController {
     @ApiResponse(responseCode = "200", description = "Updating event")
     public ResponseEntity<Event> update(
             @PathVariable("id") UUID id,
-            @RequestBody @Valid EventRegisterDTO data) {
+            @RequestBody @Valid EventRequestDto data) {
         Event e = eventService.updateEvent(id, data);
         if (e == null) throw new AppError("Error while updating the event.");
         return ResponseEntity

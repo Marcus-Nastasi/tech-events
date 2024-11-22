@@ -1,7 +1,7 @@
 package com.rolemberg.eventostech.resource.services.users;
 
 import com.rolemberg.eventostech.domain.users.User;
-import com.rolemberg.eventostech.domain.users.UserRegisterDTO;
+import com.rolemberg.eventostech.application.web.request.users.UserRequestDto;
 import com.rolemberg.eventostech.domain.enums.Roles;
 import com.rolemberg.eventostech.resource.repository.users.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class UserService {
         return userPage.toList();
     }
 
-    public User register(UserRegisterDTO data) {
+    public User register(UserRequestDto data) {
         String password = passwordEncoder.encode(data.password());
         User user = new User();
         user.setName(data.name());

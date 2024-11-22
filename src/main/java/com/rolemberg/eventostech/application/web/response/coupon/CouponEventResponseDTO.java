@@ -1,6 +1,6 @@
-package com.rolemberg.eventostech.domain.coupon;
+package com.rolemberg.eventostech.application.web.response.coupon;
 
-import com.rolemberg.eventostech.domain.event.EventCleanResponseDTO;
+import com.rolemberg.eventostech.application.web.response.event.EventCleanResponseDTO;
 
 import java.time.LocalDate;
 import java.util.UUID;

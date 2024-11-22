@@ -1,8 +1,8 @@
 package com.rolemberg.eventostech.resource.services.coupon;
 
 import com.rolemberg.eventostech.domain.coupon.Coupon;
-import com.rolemberg.eventostech.domain.coupon.CouponRegisterDTO;
-import com.rolemberg.eventostech.domain.coupon.CouponEventResponseDTO;
+import com.rolemberg.eventostech.application.web.request.coupon.CouponRequestDto;
+import com.rolemberg.eventostech.application.web.response.coupon.CouponEventResponseDTO;
 import com.rolemberg.eventostech.domain.event.Event;
 import com.rolemberg.eventostech.web.handlers.AppError;
 import com.rolemberg.eventostech.resource.repository.coupon.CouponRepo;
@@ -33,7 +33,7 @@ public class CouponService {
         return couponPage.map(this::mapToCouponEventResponseDTO).toList();
     }
 
-    public CouponEventResponseDTO create(UUID event_id, CouponRegisterDTO data) {
+    public CouponEventResponseDTO create(UUID event_id, CouponRequestDto data) {
         Event e = eventRepo
             .findById(event_id)
             .orElseThrow(() -> new AppError("Error finding associated event while creating the coupon"));
@@ -50,7 +50,7 @@ public class CouponService {
         return mapToCouponEventResponseDTO(c);
     }
 
-    public CouponEventResponseDTO update(UUID id, CouponRegisterDTO data) {
+    public CouponEventResponseDTO update(UUID id, CouponRequestDto data) {
         Coupon c = couponRepo
             .findById(id)
             .orElseThrow(() -> new AppError("Error finding the coupon while trying to update"));

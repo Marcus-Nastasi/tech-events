@@ -1,4 +1,4 @@
-package com.rolemberg.eventostech.domain.users;
+package com.rolemberg.eventostech.application.web.request.auth;
 
 public record LoginRequestDTO(
    String email,

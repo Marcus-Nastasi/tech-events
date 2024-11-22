@@ -1,9 +1,9 @@
 package com.rolemberg.eventostech.resource.services.event;
 
 import com.rolemberg.eventostech.domain.event.Event;
-import com.rolemberg.eventostech.domain.event.EventCleanResponseDTO;
-import com.rolemberg.eventostech.domain.event.EventRegisterDTO;
-import com.rolemberg.eventostech.domain.event.EventsResponseDTO;
+import com.rolemberg.eventostech.application.web.response.event.EventCleanResponseDTO;
+import com.rolemberg.eventostech.application.web.request.event.EventRequestDto;
+import com.rolemberg.eventostech.application.web.response.event.EventsResponseDTO;
 import com.rolemberg.eventostech.web.handlers.AppError;
 import com.rolemberg.eventostech.resource.repository.event.EventRepo;
 import com.rolemberg.eventostech.resource.services.address.AddressService;
@@ -54,7 +54,7 @@ public class EventService {
         return eventPage.map(this::mapToEventsResponseDTO).toList();
     }
 
-    public Event createEvent(EventRegisterDTO data) {
+    public Event createEvent(EventRequestDto data) {
         String image_url = null;
         if (data.image() != null) image_url = this.file.uploadToS3(data.image());
         Event e = new Event();
@@ -74,7 +74,7 @@ public class EventService {
         return e;
     }
 
-    public Event updateEvent(UUID id, EventRegisterDTO data) throws NoSuchElementException {
+    public Event updateEvent(UUID id, EventRequestDto data) throws NoSuchElementException {
         Event e = eventRepo
             .findById(id)
             .orElseThrow(() -> new AppError("Cannot get the event while trying to update"));

@@ -1,4 +1,4 @@
-package com.rolemberg.eventostech.domain.event;
+package com.rolemberg.eventostech.application.web.response.event;
 
 import com.rolemberg.eventostech.domain.address.Address;
 import com.rolemberg.eventostech.domain.coupon.Coupon;

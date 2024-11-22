@@ -1,4 +1,4 @@
-package com.rolemberg.eventostech.domain.event;
+package com.rolemberg.eventostech.application.web.response.event;
 
 import java.time.LocalDate;
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package com.rolemberg.eventostech.application.web.controllers.address;
 
-import com.rolemberg.eventostech.domain.address.AddressEventResponseDTO;
-import com.rolemberg.eventostech.domain.address.AddressUpdateDTO;
+import com.rolemberg.eventostech.application.web.response.address.AddressEventResponseDTO;
+import com.rolemberg.eventostech.application.web.request.address.AddressUpdateDTO;
 import com.rolemberg.eventostech.resource.services.address.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
