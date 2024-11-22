@@ -15,4 +15,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleAppError(AppError error, WebRequest request) {
         return new ResponseEntity<>(Map.of("error", error.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleRuntimeError(RuntimeException error, WebRequest request) {
+        return new ResponseEntity<>(Map.of("error", error.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleError(Exception error, WebRequest request) {
+        return new ResponseEntity<>(Map.of("error", error.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }
