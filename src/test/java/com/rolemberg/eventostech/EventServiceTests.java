@@ -1,8 +1,8 @@
 package com.rolemberg.eventostech;
 
-import com.rolemberg.eventostech.Domain.Event.Event;
-import com.rolemberg.eventostech.Repository.Event.EventRepo;
-import com.rolemberg.eventostech.Services.Event.EventService;
+import com.rolemberg.eventostech.domain.event.Event;
+import com.rolemberg.eventostech.resource.repository.event.EventRepo;
+import com.rolemberg.eventostech.resource.services.event.EventService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
